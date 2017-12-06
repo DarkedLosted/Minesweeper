@@ -15,12 +15,13 @@ function Game() {
 	this.mineCount = 0;
 	this.firstClick = true;
 	this.timeId = 0;
+	this.SIZE = 10;
 	var self = this;
 
 		this.start = function() {
-			 this.width = parseInt(prompt("GameField width(min:9):", '') );
-			 this.height = parseInt(prompt("GameField height(min:9):", '') );
-			 this.mineCount = parseInt(prompt("Mines number:",'') );
+			 this.width = this.SIZE;//parseInt(prompt("GameField width(min:9):", '') );
+			 this.height = this.SIZE;//parseInt(prompt("GameField height(min:9):", '') );
+			 this.mineCount = this.SIZE;//parseInt(prompt("Mines number:",'') );
 
 			 if(!isNumeric(this.width) || !isNumeric(this.height) || !isNumeric(this.mineCount) || this.mineCount >= (this.width * this.height) || this.width < 9 || this.height < 9)
 			 	this.start();
@@ -144,58 +145,58 @@ function Game() {
 				if(self.gameField[id + self.width] && !self.gameField[id + self.width].mine)
 				self.gameField[id + self.width].number++;//bottom
 
-				if(self.gameField[id - self.width + 1] && !self.gameField[id - self.width + 1].mine && (id + 1) % self.width != 1 && (id + 1) - self.width > 0)
-				self.gameField[id - self.width + 1].number++;//top left
+				if(self.gameField[id - self.width + 1] && !self.gameField[id - self.width + 1].mine && (id + 1) % self.width != 0 && (id + 1) - self.width > 0)
+				self.gameField[id - self.width + 1].number++;//top right
 
 				if(self.gameField[id + self.width - 1] && !self.gameField[id + self.width - 1].mine && (id + 1) % self.width != 1)
 				self.gameField[id + self.width - 1].number++;//bottom left
 
-				if(self.gameField[id + self.width + 1 ] && !self.gameField[id + self.width + 1].mine && (id + 1) % self.width != 0 && (id + 1) % self.width != 0)
+				if(self.gameField[id + self.width + 1 ] && !self.gameField[id + self.width + 1].mine && (id + 1) % self.width != 0)
 				self.gameField[id + self.width + 1].number++;//bottom right
 
-				if(self.gameField[id - self.width - 1] && !self.gameField[id - self.width - 1].mine && (id + 1) - self.width > 0 && (id + 1) % self.width != 0)
-				self.gameField[id - self.width - 1].number++;//top right
+				if(self.gameField[id - self.width - 1] && !self.gameField[id - self.width - 1].mine && (id + 1) - self.width > 0 && (id + 1) % self.width != 1)
+				self.gameField[id - self.width - 1].number++;//top left
 			}
 
 			button.emptyCells = function() {
 				var id = this.getId();
 
-				if((id + 1) % self.width != 1 && self.gameField[id - 1].statusState != "opened" && !self.gameField[id - 1].mine) {
+				if((id + 1) % self.width != 1 && self.gameField[id - 1] && self.gameField[id - 1].statusState != "opened" && !self.gameField[id - 1].mine) {
 					self.gameField[id - 1].classList.add("opened");
 					self.gameField[id - 1].onclick();//left					
 				}
 
-				if((id + 1) % self.width != 0 && self.gameField[id + 1].statusState != "opened" && !self.gameField[id + 1].mine) {
+				if((id + 1) % self.width != 0 && self.gameField[id + 1] && self.gameField[id + 1].statusState != "opened" && !self.gameField[id + 1].mine) {
 					self.gameField[id + 1].classList.add("opened");
 					self.gameField[id + 1].onclick();//right					
 				}
 				
 
-				if((id + 1) - self.width > 0 && self.gameField[id - self.width].statusState != "opened" && !self.gameField[id - self.width].mine) {
+				if((id + 1) - self.width > 0 && self.gameField[id - self.width] && self.gameField[id - self.width].statusState != "opened" && !self.gameField[id - self.width].mine) {
 					self.gameField[id - self.width].classList.add("opened");
 					self.gameField[id - self.width].onclick();//top
 				}
 
-				if(self.gameField[id + self.width].statusState != "opened" && !self.gameField[id + self.width].mine) {
+				if(self.gameField[id + self.width] && self.gameField[id + self.width].statusState != "opened" && !self.gameField[id + self.width].mine) {
 					self.gameField[id + self.width].classList.add("opened");
 					self.gameField[id + self.width].onclick();//bottom					
 				}
 				
-				if((id + 1) % self.width != 1 && (id + 1) - self.width > 0 && self.gameField[id - self.width + 1].statusState != "opened" && !self.gameField[id - self.width + 1].mine ) {
+				if((id + 1) % self.width != 0 && (id + 1) - self.width > 0 && self.gameField[id - self.width + 1] && self.gameField[id - self.width + 1].statusState != "opened" && !self.gameField[id - self.width + 1].mine ) {
 					self.gameField[id - self.width + 1].classList.add("opened");
 					self.gameField[id - self.width + 1].onclick();//left					
 				}
 
-				if((id + 1) % self.width != 1 && self.gameField[id + self.width - 1].statusState != "opened" && !self.gameField[id + self.width - 1].mine) {
+				if((id + 1) % self.width != 1 && self.gameField[id + self.width - 1] && self.gameField[id + self.width - 1].statusState != "opened" && !self.gameField[id + self.width - 1].mine) {
 					self.gameField[id + self.width - 1].classList.add("opened");
 					self.gameField[id + self.width - 1].onclick();//right					
 				}
-				if((id + 1) % self.width != 0 && self.gameField[id + self.width + 1 ].statusState != "opened" && !self.gameField[id + self.width + 1].mine) {
+				if((id + 1) % self.width != 0 && self.gameField[id + self.width + 1 ] && self.gameField[id + self.width + 1 ].statusState != "opened" && !self.gameField[id + self.width + 1].mine) {
 					self.gameField[id + self.width + 1 ].classList.add("opened");
 					self.gameField[id + self.width + 1 ].onclick();//left					
 				}
 
-				if((id + 1) - self.width > 0 && (id + 1) % self.width != 0 && self.gameField[id - self.width - 1].statusState != "opened" && !self.gameField[id - self.width - 1].mine) {
+				if((id + 1) - self.width > 0 && (id + 1) % self.width != 1 && self.gameField[id - self.width - 1] && self.gameField[id - self.width - 1].statusState != "opened" && !self.gameField[id - self.width - 1].mine) {
 					self.gameField[id - self.width - 1].classList.add("opened");
 					self.gameField[id - self.width - 1].onclick();//right					
 				}
@@ -243,7 +244,7 @@ function Game() {
 
 		this.checkWin = function() {
 			if(this.mineFound == this.mineCount) {
-				alert("You win!");
+				alert("You win!" + " Time:" + this.time.innerHTML);
 				// self = {};
 			}
 		}
